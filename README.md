@@ -20,7 +20,8 @@ Instructions on using the charm:
     juju deploy neutron-api-plumgrid
     juju deploy plumgrid-director
 
-    juju add-relation neutron-api neutron-api-plumgrid
+    juju add-relation neutron-api-plumgrid neutron-api
+    juju add-relation neutron-api-plumgrid plumgrid-director
 
 For plumgrid-director to work make the configuration in the neutron-api and neutron-api-plumgrid charms as specified in the configuration section below.
 
@@ -34,15 +35,19 @@ Example Config
 
     plumgrid-director:
         plumgrid-virtual-ip: "192.168.100.250"
+        plumgrid-username: plumgrid
+        plumgrid-password: plumgrid
         install_sources: 'ppa:plumgrid-team/stable'
         install_keys: 'null'
     neutron-api-plumgrid:
         install_sources: 'ppa:plumgrid-team/stable'
         install_keys: 'null'
         enable-metadata: True
+        manage-neutron-plugin-legacy-mode: false
     neutron-api:
         neutron-plugin: "plumgrid"
-        plumgrid-virtual-ip: "192.168.100.250"
+        manage-neutron-plugin-legacy-mode: false
+        neutron-security-groups: true
 
 Provide the virtual IP you want PLUMgrid GUI to be accessible.
 Make sure that it is the same IP specified in the neutron-api charm configuration for PLUMgrid.
